@@ -31,7 +31,10 @@ public class EmailService {
 
             log.info("E-mail enviado com sucesso para " + emailNotification.getEmailTo());
         } catch (MessagingException exception) {
-            throw new RuntimeException("Ocorreu erro ao enviar a mensagem: " + exception.getMessage());
+            var messageError = "Ocorreu erro ao enviar a mensagem: " + exception.getMessage();
+
+            log.error(messageError);
+            throw new RuntimeException(messageError);
         }
     }
 }
