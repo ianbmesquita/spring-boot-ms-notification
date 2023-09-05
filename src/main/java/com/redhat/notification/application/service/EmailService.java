@@ -4,6 +4,8 @@ import com.redhat.notification.application.model.EmailNotification;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,11 +14,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class EmailService {
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
     @Autowired
     private JavaMailSender mailSender;
 
     public void sendMail(EmailNotification emailNotification) {
-        log.info("Enviando e-mail com sucesso para " + emailNotification.getEmailTo());
+        logger.info("Enviando e-mail com sucesso para " + emailNotification.getEmailTo());
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -29,11 +32,11 @@ public class EmailService {
 
             mailSender.send(message);
 
-            log.info("E-mail enviado com sucesso para " + emailNotification.getEmailTo());
+            logger.info("E-mail enviado com sucesso para " + emailNotification.getEmailTo());
         } catch (MessagingException exception) {
             var messageError = "Ocorreu erro ao enviar a mensagem: " + exception.getMessage();
 
-            log.error(messageError);
+            logger.error(messageError);
             throw new RuntimeException(messageError);
         }
     }
