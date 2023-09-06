@@ -3,6 +3,7 @@ package com.redhat.notification.application.mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.notification.application.model.EmailNotification;
 import com.redhat.notification.application.model.Leed;
+import com.redhat.notification.application.model.SMSNotification;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -17,15 +18,12 @@ public class NotificationMapper {
         }
     }
 
-    public EmailNotification convertLeedToEmail(Leed leed) {
-        return EmailNotification.builder()
-                .ownerRef("Ian Mesquita - Demo")
-                .emailFrom("ian.mesquita.demo@gmail.com")
-                .emailTo(leed.getEmail())
-                .subject("Parabéns! Você foi cadastrado com sucesso")
-                .text(String.format("Olá %s, informamos que seu cadastro foi efetuado com sucesso. \n" +
-                        "Fique atento que em breve entraremos em contato pelo número %s",
-                        leed.getNome(), leed.getWhatsApp()))
+    public SMSNotification convertLeedToSMS(Leed leed) {
+        return SMSNotification.builder()
+                .name(leed.getNome())
+                .phoneNumber("+55" + leed.getWhatsApp())
+                .text("Mensagem consumida: { id: " + leed.getId() + ", nome: " + leed.getNome() +
+                        ", email: " + leed.getEmail() + ", cidade: " + leed.getCidade() + "}.")
                 .build();
     }
 }

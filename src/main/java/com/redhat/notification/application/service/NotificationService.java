@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationService {
     @Autowired
-    private EmailService service;
+    private SMSService service;
 
     @Autowired
     private NotificationMapper mapper;
 
     public void processNotification(Leed leed) {
-        service.sendMail(mapper.convertLeedToEmail(leed));
+        service.sendSMS(mapper.convertLeedToSMS(leed));
     }
 }
